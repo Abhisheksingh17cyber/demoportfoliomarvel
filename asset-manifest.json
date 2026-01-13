@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/demoportfoliomarvel/static/css/main.f39fbe6e.css",
+    "main.js": "/demoportfoliomarvel/static/js/main.21ccb482.js",
+    "static/js/453.88887dea.chunk.js": "/demoportfoliomarvel/static/js/453.88887dea.chunk.js",
+    "index.html": "/demoportfoliomarvel/index.html",
+    "main.f39fbe6e.css.map": "/demoportfoliomarvel/static/css/main.f39fbe6e.css.map",
+    "main.21ccb482.js.map": "/demoportfoliomarvel/static/js/main.21ccb482.js.map",
+    "453.88887dea.chunk.js.map": "/demoportfoliomarvel/static/js/453.88887dea.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f39fbe6e.css",
+    "static/js/main.21ccb482.js"
+  ]
+}
