@@ -1222,3 +1222,753 @@ body {
     padding: 80px 0;
   }
 }
+
+/* ======================================
+   SCROLL PROGRESS BAR
+   ====================================== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+  transform-origin: 0%;
+  z-index: 10000;
+}
+
+/* ======================================
+   IRON MAN FLYING ANIMATION
+   ====================================== */
+.iron-man-container {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.iron-man {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.iron-man-body {
+  width: 60px;
+  height: 70px;
+  background: linear-gradient(145deg, #B71C1C 0%, #8B0000 50%, #B71C1C 100%);
+  border-radius: 20px 20px 30px 30px;
+  position: relative;
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.5),
+    inset 0 -10px 20px rgba(0, 0, 0, 0.3);
+  transform: rotate(-30deg);
+}
+
+.arc-reactor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #00D4FF 0%, #0099CC 50%, #006699 100%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 
+    0 0 15px #00D4FF,
+    0 0 30px #00D4FF,
+    0 0 45px #00D4FF;
+  animation: arcPulse 1s ease-in-out infinite;
+}
+
+@keyframes arcPulse {
+  0%, 100% { box-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF; }
+  50% { box-shadow: 0 0 25px #00D4FF, 0 0 50px #00D4FF, 0 0 75px #00D4FF; }
+}
+
+.iron-man-trail {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+}
+
+.trail-particle {
+  width: 10px;
+  height: 30px;
+  background: linear-gradient(180deg, #FFD700 0%, #FF6600 50%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.repulsor-blast {
+  position: absolute;
+  width: 15px;
+  height: 40px;
+  background: linear-gradient(180deg, #00D4FF 0%, #FFD700 30%, #FF6600 60%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(3px);
+  animation: repulsorFlicker 0.1s ease-in-out infinite;
+}
+
+.repulsor-blast.left {
+  bottom: -35px;
+  left: 5px;
+  transform: rotate(15deg);
+}
+
+.repulsor-blast.right {
+  bottom: -35px;
+  right: 5px;
+  transform: rotate(-15deg);
+}
+
+@keyframes repulsorFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ======================================
+   THOR'S HAMMER (MJOLNIR)
+   ====================================== */
+.thor-hammer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  position: relative;
+}
+
+.mjolnir {
+  cursor: pointer;
+  position: relative;
+  filter: drop-shadow(0 10px 30px rgba(123, 31, 162, 0.5));
+}
+
+.hammer-head {
+  width: 100px;
+  height: 60px;
+  background: linear-gradient(135deg, #4A4A4A 0%, #2A2A2A 50%, #4A4A4A 100%);
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 
+    inset 0 0 20px rgba(255, 255, 255, 0.1),
+    0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hammer-face {
+  position: absolute;
+  width: 20px;
+  height: 50px;
+  background: linear-gradient(180deg, #5A5A5A 0%, #3A3A3A 100%);
+  top: 5px;
+  border-radius: 3px;
+}
+
+.hammer-face.front { left: -15px; }
+.hammer-face.back { right: -15px; }
+
+.hammer-runes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: #00D4FF;
+  text-shadow: 0 0 10px #00D4FF;
+  letter-spacing: 2px;
+}
+
+.hammer-handle {
+  width: 20px;
+  height: 80px;
+  background: linear-gradient(90deg, #5D4037 0%, #3E2723 50%, #5D4037 100%);
+  margin: 0 auto;
+  border-radius: 3px;
+  position: relative;
+}
+
+.handle-wrap {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background: repeating-linear-gradient(
+    0deg,
+    #8D6E63 0px,
+    #8D6E63 3px,
+    #5D4037 3px,
+    #5D4037 6px
+  );
+  border-radius: 0 0 3px 3px;
+}
+
+.hammer-strap {
+  width: 40px;
+  height: 15px;
+  background: #8D6E63;
+  margin: 5px auto 0;
+  border-radius: 10px;
+}
+
+.hammer-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* Lightning Effect */
+.lightning-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.lightning-bolt {
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 100vh;
+  background: linear-gradient(180deg, 
+    transparent 0%,
+    #00D4FF 20%,
+    #FFFFFF 50%,
+    #00D4FF 80%,
+    transparent 100%
+  );
+  filter: blur(2px);
+  box-shadow: 
+    0 0 10px #00D4FF,
+    0 0 20px #00D4FF,
+    0 0 40px #00D4FF;
+}
+
+/* ======================================
+   CAPTAIN AMERICA SHIELD
+   ====================================== */
+.cap-shield-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  cursor: pointer;
+}
+
+.cap-shield {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 10px 30px rgba(21, 101, 192, 0.5),
+    inset 0 0 50px rgba(0, 0, 0, 0.3);
+}
+
+.shield-ring {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.shield-ring.outer {
+  width: 150px;
+  height: 150px;
+  background: #B71C1C;
+  border: 8px solid #1565C0;
+}
+
+.shield-ring.white {
+  width: 110px;
+  height: 110px;
+  background: #FFFFFF;
+  border: 8px solid #B71C1C;
+}
+
+.shield-ring.inner {
+  width: 70px;
+  height: 70px;
+  background: #1565C0;
+}
+
+.shield-star {
+  position: absolute;
+  font-size: 40px;
+  color: #FFFFFF;
+  z-index: 10;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* ======================================
+   SPIDER-MAN WEB
+   ====================================== */
+.spider-web-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.web-shot {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.web-svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+/* ======================================
+   INFINITY STONES
+   ====================================== */
+.infinity-stones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.infinity-stone {
+  width: 50px;
+  height: 50px;
+  background: var(--stone-color);
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 
+    0 0 20px var(--stone-color),
+    inset 0 0 15px rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.stone-inner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+}
+
+.stone-tooltip {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--background-card);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.infinity-stone:hover .stone-tooltip {
+  opacity: 1;
+}
+
+/* ======================================
+   HULK SMASH BUTTON
+   ====================================== */
+.hulk-smash-btn {
+  background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(46, 125, 50, 0.4);
+  transition: all 0.3s ease;
+}
+
+.hulk-smash-btn:hover {
+  transform: scale(1.05);
+}
+
+.hulk-smash-btn.smashed {
+  animation: buttonSmash 0.5s ease;
+}
+
+@keyframes buttonSmash {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2) rotate(-5deg); }
+  50% { transform: scale(0.9) rotate(5deg); }
+  75% { transform: scale(1.1) rotate(-3deg); }
+}
+
+.hulk-fist {
+  font-size: 24px;
+}
+
+.smash-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+}
+
+.smash-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  border-radius: 50%;
+}
+
+/* Screen Shake */
+.screen-shake {
+  animation: screenShake 0.5s ease;
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* ======================================
+   ARC REACTOR
+   ====================================== */
+.arc-reactor-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reactor-outer-ring {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 0 30px rgba(0, 212, 255, 0.3),
+    inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.reactor-inner-ring {
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, #1A1A1A 0%, #0A0A0A 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #00D4FF;
+  box-shadow: 
+    0 0 20px #00D4FF,
+    inset 0 0 30px rgba(0, 212, 255, 0.2);
+}
+
+.reactor-core {
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, #00D4FF 0%, #006699 100%);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.core-glow {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.core-triangle {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 25px solid rgba(255, 255, 255, 0.8);
+  position: absolute;
+}
+
+.reactor-segment {
+  position: absolute;
+  width: 10px;
+  height: 30px;
+  background: linear-gradient(180deg, #00D4FF 0%, transparent 100%);
+  top: 10px;
+  left: 50%;
+  transform-origin: 50% 70px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #00D4FF;
+}
+
+.power-indicator {
+  position: absolute;
+  bottom: -30px;
+  background: var(--background-card);
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #00D4FF;
+  border: 1px solid #00D4FF;
+}
+
+/* ======================================
+   DOCTOR STRANGE PORTAL
+   ====================================== */
+.portal-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.strange-portal {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid;
+  border-color: #FF6600 #FFD700 #FF6600 #FFD700;
+}
+
+.outer-ring {
+  width: 180px;
+  height: 180px;
+  animation: portalSpin 3s linear infinite;
+}
+
+.middle-ring {
+  width: 140px;
+  height: 140px;
+  animation: portalSpin 2s linear infinite reverse;
+}
+
+.inner-ring {
+  width: 100px;
+  height: 100px;
+  animation: portalSpin 1.5s linear infinite;
+}
+
+@keyframes portalSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.portal-sparks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #FFD700;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #FFD700;
+}
+
+.portal-center {
+  font-size: 40px;
+  z-index: 10;
+}
+
+.strange-portal.open .portal-ring {
+  border-color: #00D4FF #FFFFFF #00D4FF #FFFFFF;
+  box-shadow: 0 0 30px #00D4FF;
+}
+
+.portal-content {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 212, 255, 0.1);
+  border-radius: 10px;
+  border: 1px solid #00D4FF;
+}
+
+.portal-message {
+  color: #00D4FF;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ======================================
+   MARVEL SHOWCASE SECTION
+   ====================================== */
+.marvel-showcase-section {
+  padding: 120px 0;
+  background: linear-gradient(180deg, var(--background-dark) 0%, var(--background-card) 50%, var(--background-dark) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.marvel-showcase-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(229, 62, 62, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.marvel-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.showcase-item {
+  background: var(--background-card);
+  border-radius: var(--border-radius);
+  padding: 40px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.showcase-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+}
+
+.showcase-item:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-glow);
+  border-color: rgba(229, 62, 62, 0.3);
+}
+
+.showcase-item h3 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+.showcase-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+/* Specific showcase backgrounds */
+.thor-showcase { background: linear-gradient(135deg, rgba(123, 31, 162, 0.2) 0%, var(--background-card) 100%); }
+.cap-showcase { background: linear-gradient(135deg, rgba(21, 101, 192, 0.2) 0%, var(--background-card) 100%); }
+.reactor-showcase { background: linear-gradient(135deg, rgba(183, 28, 28, 0.2) 0%, var(--background-card) 100%); }
+.stones-showcase { background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, var(--background-card) 100%); }
+.hulk-showcase { background: linear-gradient(135deg, rgba(46, 125, 50, 0.2) 0%, var(--background-card) 100%); }
+.strange-showcase { background: linear-gradient(135deg, rgba(230, 81, 0, 0.2) 0%, var(--background-card) 100%); }
+
+/* ======================================
+   RESPONSIVE MARVEL SHOWCASE
+   ====================================== */
+@media (max-width: 768px) {
+  .marvel-showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .showcase-item {
+    padding: 30px 20px;
+  }
+  
+  .iron-man-container {
+    display: none;
+  }
+  
+  .cap-shield {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .shield-ring.outer {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .shield-ring.white {
+    width: 88px;
+    height: 88px;
+  }
+  
+  .shield-ring.inner {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .shield-star {
+    font-size: 30px;
+  }
+  
+  .infinity-stone {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .strange-portal {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .outer-ring {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .middle-ring {
+    width: 110px;
+    height: 110px;
+  }
+  
+  .inner-ring {
+    width: 80px;
+    height: 80px;
+  }
+}

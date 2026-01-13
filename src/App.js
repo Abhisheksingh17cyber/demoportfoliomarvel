@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaCode, FaPalette, FaMobile, FaReact, FaHtml5, FaCss3Alt, FaJs, FaFigma, FaArrowUp } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaCode, FaPalette, FaMobile, FaReact, FaHtml5, FaCss3Alt, FaJs, FaFigma, FaArrowUp, FaBolt, FaShieldAlt, FaFire, FaRocket, FaStar } from 'react-icons/fa';
 import { SiAdobexd, SiTypescript } from 'react-icons/si';
 import './App.css';
 
-// Marvel Heroes Data
+// Marvel Heroes Data with enhanced details
 const marvelHeroes = [
-  { name: 'Iron Man', skill: 'React Development', color: '#B71C1C', icon: '🦾', description: 'Building powerful UI components with React' },
-  { name: 'Captain America', skill: 'HTML5 Mastery', color: '#1565C0', icon: '🛡️', description: 'Strong foundation in semantic HTML structure' },
-  { name: 'Thor', skill: 'JavaScript Thunder', color: '#7B1FA2', icon: '⚡', description: 'Wielding the power of modern JavaScript' },
-  { name: 'Black Widow', skill: 'CSS3 Stealth', color: '#212121', icon: '🕷️', description: 'Crafting sleek, elegant stylesheets' },
-  { name: 'Hulk', skill: 'Performance Power', color: '#2E7D32', icon: '💪', description: 'Optimizing for maximum performance' },
-  { name: 'Spider-Man', skill: 'Responsive Design', color: '#C62828', icon: '🕸️', description: 'Weaving adaptive, flexible layouts' },
-  { name: 'Doctor Strange', skill: 'UI/UX Magic', color: '#E65100', icon: '✨', description: 'Creating mystical user experiences' },
-  { name: 'Black Panther', skill: 'Design Systems', color: '#4A148C', icon: '🐆', description: 'Building advanced design systems' },
+  { name: 'Iron Man', skill: 'React Development', color: '#B71C1C', icon: '🦾', description: 'Building powerful UI components with React', power: 'Arc Reactor Technology' },
+  { name: 'Captain America', skill: 'HTML5 Mastery', color: '#1565C0', icon: '🛡️', description: 'Strong foundation in semantic HTML structure', power: 'Super Soldier Serum' },
+  { name: 'Thor', skill: 'JavaScript Thunder', color: '#7B1FA2', icon: '⚡', description: 'Wielding the power of modern JavaScript', power: 'God of Thunder' },
+  { name: 'Black Widow', skill: 'CSS3 Stealth', color: '#212121', icon: '🕷️', description: 'Crafting sleek, elegant stylesheets', power: 'Master Spy' },
+  { name: 'Hulk', skill: 'Performance Power', color: '#2E7D32', icon: '💪', description: 'Optimizing for maximum performance', power: 'Gamma Radiation' },
+  { name: 'Spider-Man', skill: 'Responsive Design', color: '#C62828', icon: '🕸️', description: 'Weaving adaptive, flexible layouts', power: 'Spider Sense' },
+  { name: 'Doctor Strange', skill: 'UI/UX Magic', color: '#E65100', icon: '✨', description: 'Creating mystical user experiences', power: 'Mystic Arts' },
+  { name: 'Black Panther', skill: 'Design Systems', color: '#4A148C', icon: '🐆', description: 'Building advanced design systems', power: 'Vibranium Tech' },
 ];
 
 const projects = [
@@ -22,28 +22,48 @@ const projects = [
     description: 'A comprehensive React dashboard with real-time data visualization, inspired by Iron Man\'s HUD interface.',
     tech: ['React', 'TypeScript', 'D3.js'],
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600',
-    color: '#B71C1C'
+    color: '#B71C1C',
+    hero: 'Iron Man'
   },
   {
     title: 'Avengers Team Portal',
     description: 'Collaborative team management platform with real-time communication features.',
     tech: ['React', 'Node.js', 'Socket.io'],
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600',
-    color: '#1565C0'
+    color: '#1565C0',
+    hero: 'Captain America'
   },
   {
     title: 'Wakanda Design System',
     description: 'A comprehensive UI component library with accessibility-first approach.',
     tech: ['React', 'Storybook', 'Figma'],
     image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600',
-    color: '#4A148C'
+    color: '#4A148C',
+    hero: 'Black Panther'
   },
   {
     title: 'Multiverse Navigator',
     description: 'An immersive 3D web experience showcasing advanced CSS animations and WebGL.',
     tech: ['Three.js', 'GSAP', 'WebGL'],
     image: 'https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?w=600',
-    color: '#E65100'
+    color: '#E65100',
+    hero: 'Doctor Strange'
+  },
+  {
+    title: 'Web Slinger Analytics',
+    description: 'Real-time analytics dashboard with intuitive data visualization.',
+    tech: ['React', 'Chart.js', 'Firebase'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600',
+    color: '#C62828',
+    hero: 'Spider-Man'
+  },
+  {
+    title: 'Thunder CMS',
+    description: 'Powerful content management system with lightning-fast performance.',
+    tech: ['Next.js', 'GraphQL', 'PostgreSQL'],
+    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600',
+    color: '#7B1FA2',
+    hero: 'Thor'
   }
 ];
 
@@ -57,13 +77,416 @@ const skills = [
   { name: 'Adobe XD', level: 82, icon: <SiAdobexd />, color: '#FF61F6' },
 ];
 
+// ============================================
+// IRON MAN COMPONENT - Flying Animation
+// ============================================
+function IronManFlying() {
+  return (
+    <motion.div 
+      className="iron-man-container"
+      initial={{ x: -200, y: 100, opacity: 0 }}
+      animate={{ 
+        x: [null, window.innerWidth + 200],
+        y: [null, -100],
+        opacity: [0, 1, 1, 0]
+      }}
+      transition={{ 
+        duration: 8, 
+        repeat: Infinity, 
+        repeatDelay: 15,
+        ease: "easeInOut"
+      }}
+    >
+      <div className="iron-man">
+        <div className="iron-man-body">
+          <div className="arc-reactor"></div>
+        </div>
+        <div className="iron-man-trail">
+          {[...Array(5)].map((_, i) => (
+            <motion.div 
+              key={i} 
+              className="trail-particle"
+              animate={{ 
+                opacity: [0.8, 0],
+                scale: [1, 0.3]
+              }}
+              transition={{ 
+                duration: 0.5, 
+                delay: i * 0.1,
+                repeat: Infinity
+              }}
+            />
+          ))}
+        </div>
+        <div className="repulsor-blast left"></div>
+        <div className="repulsor-blast right"></div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ============================================
+// THOR'S HAMMER (MJOLNIR) COMPONENT
+// ============================================
+function ThorHammer({ onClick }) {
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [lightningActive, setLightningActive] = useState(false);
+
+  const handleClick = () => {
+    setIsSpinning(true);
+    setLightningActive(true);
+    setTimeout(() => {
+      setIsSpinning(false);
+      setLightningActive(false);
+    }, 2000);
+    if (onClick) onClick();
+  };
+
+  return (
+    <div className="thor-hammer-container">
+      {lightningActive && <LightningEffect />}
+      <motion.div 
+        className="mjolnir"
+        onClick={handleClick}
+        animate={isSpinning ? { 
+          rotate: [0, 360, 720, 1080],
+          scale: [1, 1.2, 1.1, 1]
+        } : {}}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        whileHover={{ scale: 1.1, y: -5 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <div className="hammer-head">
+          <div className="hammer-face front"></div>
+          <div className="hammer-face back"></div>
+          <div className="hammer-runes">ᛗᛃᛟᛚᚾᛁᚱ</div>
+        </div>
+        <div className="hammer-handle">
+          <div className="handle-wrap"></div>
+        </div>
+        <div className="hammer-strap"></div>
+      </motion.div>
+      <motion.p 
+        className="hammer-text"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        Click to Summon Thunder ⚡
+      </motion.p>
+    </div>
+  );
+}
+
+// ============================================
+// LIGHTNING EFFECT COMPONENT
+// ============================================
+function LightningEffect() {
+  return (
+    <div className="lightning-container">
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="lightning-bolt"
+          initial={{ opacity: 0, scaleY: 0 }}
+          animate={{ 
+            opacity: [0, 1, 0.8, 0],
+            scaleY: [0, 1, 1, 0]
+          }}
+          transition={{ 
+            duration: 0.3, 
+            delay: i * 0.05,
+            repeat: 3
+          }}
+          style={{
+            left: `${10 + i * 10}%`,
+            transform: `rotate(${-20 + i * 5}deg)`
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ============================================
+// CAPTAIN AMERICA SHIELD COMPONENT
+// ============================================
+function CaptainShield() {
+  const [isThrown, setIsThrown] = useState(false);
+
+  return (
+    <motion.div 
+      className="cap-shield-container"
+      onClick={() => setIsThrown(!isThrown)}
+      whileHover={{ scale: 1.05 }}
+    >
+      <motion.div 
+        className="cap-shield"
+        animate={isThrown ? {
+          x: [0, 300, 0],
+          rotate: [0, 720, 1440],
+          scale: [1, 0.8, 1]
+        } : { rotate: 0 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+      >
+        <div className="shield-ring outer"></div>
+        <div className="shield-ring white"></div>
+        <div className="shield-ring inner"></div>
+        <div className="shield-star">★</div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ============================================
+// SPIDER-MAN WEB SHOOTER COMPONENT
+// ============================================
+function SpiderWeb() {
+  const [webs, setWebs] = useState([]);
+  
+  const shootWeb = (e) => {
+    const newWeb = {
+      id: Date.now(),
+      x: e.clientX,
+      y: e.clientY
+    };
+    setWebs([...webs, newWeb]);
+    setTimeout(() => {
+      setWebs(prev => prev.filter(w => w.id !== newWeb.id));
+    }, 2000);
+  };
+
+  return (
+    <div className="spider-web-container" onClick={shootWeb}>
+      {webs.map(web => (
+        <motion.div
+          key={web.id}
+          className="web-shot"
+          initial={{ scale: 0, opacity: 1 }}
+          animate={{ scale: 3, opacity: 0 }}
+          style={{ left: web.x, top: web.y }}
+        >
+          <svg viewBox="0 0 100 100" className="web-svg">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="white" strokeWidth="1"/>
+            <circle cx="50" cy="50" r="30" fill="none" stroke="white" strokeWidth="1"/>
+            <circle cx="50" cy="50" r="15" fill="none" stroke="white" strokeWidth="1"/>
+            {[...Array(8)].map((_, i) => (
+              <line 
+                key={i} 
+                x1="50" y1="50" 
+                x2={50 + 45 * Math.cos(i * Math.PI / 4)} 
+                y2={50 + 45 * Math.sin(i * Math.PI / 4)} 
+                stroke="white" 
+                strokeWidth="1"
+              />
+            ))}
+          </svg>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+// ============================================
+// INFINITY STONES COMPONENT
+// ============================================
+function InfinityStones() {
+  const stones = [
+    { name: 'Power', color: '#9C27B0', skill: 'Backend' },
+    { name: 'Space', color: '#2196F3', skill: 'Cloud' },
+    { name: 'Reality', color: '#F44336', skill: 'UI Design' },
+    { name: 'Soul', color: '#FF9800', skill: 'UX' },
+    { name: 'Time', color: '#4CAF50', skill: 'Performance' },
+    { name: 'Mind', color: '#FFEB3B', skill: 'Logic' },
+  ];
+
+  return (
+    <div className="infinity-stones">
+      {stones.map((stone, index) => (
+        <motion.div
+          key={stone.name}
+          className="infinity-stone"
+          style={{ '--stone-color': stone.color }}
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: index * 0.1, type: 'spring' }}
+          whileHover={{ 
+            scale: 1.3, 
+            boxShadow: `0 0 30px ${stone.color}`,
+            rotate: 360
+          }}
+        >
+          <div className="stone-inner"></div>
+          <span className="stone-tooltip">{stone.name} - {stone.skill}</span>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+// ============================================
+// HULK SMASH BUTTON COMPONENT
+// ============================================
+function HulkSmashButton() {
+  const [smashed, setSmashed] = useState(false);
+
+  const handleSmash = () => {
+    setSmashed(true);
+    // Add screen shake effect
+    document.body.classList.add('screen-shake');
+    setTimeout(() => {
+      setSmashed(false);
+      document.body.classList.remove('screen-shake');
+    }, 500);
+  };
+
+  return (
+    <motion.button
+      className={`hulk-smash-btn ${smashed ? 'smashed' : ''}`}
+      onClick={handleSmash}
+      whileHover={{ scale: 1.1, backgroundColor: '#1B5E20' }}
+      whileTap={{ scale: 0.9 }}
+    >
+      <span className="hulk-fist">👊</span>
+      <span>HULK SMASH!</span>
+      {smashed && (
+        <div className="smash-effect">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="smash-particle"
+              initial={{ scale: 0, x: 0, y: 0 }}
+              animate={{ 
+                scale: [1, 0],
+                x: (Math.random() - 0.5) * 200,
+                y: (Math.random() - 0.5) * 200,
+                opacity: [1, 0]
+              }}
+              transition={{ duration: 0.5 }}
+            />
+          ))}
+        </div>
+      )}
+    </motion.button>
+  );
+}
+
+// ============================================
+// ARC REACTOR COMPONENT (Interactive)
+// ============================================
+function ArcReactor({ size = 150 }) {
+  const [powerLevel, setPowerLevel] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPowerLevel(prev => (prev + 1) % 101);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="arc-reactor-container" style={{ width: size, height: size }}>
+      <div className="reactor-outer-ring">
+        <div className="reactor-inner-ring">
+          <div className="reactor-core">
+            <motion.div 
+              className="core-glow"
+              animate={{ 
+                boxShadow: [
+                  '0 0 20px #00D4FF, 0 0 40px #00D4FF',
+                  '0 0 40px #00D4FF, 0 0 80px #00D4FF',
+                  '0 0 20px #00D4FF, 0 0 40px #00D4FF'
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <div className="core-triangle"></div>
+          </div>
+        </div>
+        {[...Array(10)].map((_, i) => (
+          <div 
+            key={i} 
+            className="reactor-segment"
+            style={{ transform: `rotate(${i * 36}deg)` }}
+          />
+        ))}
+      </div>
+      <div className="power-indicator">
+        <span>{powerLevel}%</span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// DOCTOR STRANGE PORTAL COMPONENT
+// ============================================
+function StrangePortal({ children }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="portal-wrapper">
+      <motion.div 
+        className={`strange-portal ${isOpen ? 'open' : ''}`}
+        onClick={() => setIsOpen(!isOpen)}
+        animate={isOpen ? { rotate: 360 } : { rotate: 0 }}
+        transition={{ duration: 2, repeat: isOpen ? Infinity : 0, ease: "linear" }}
+      >
+        <div className="portal-ring outer-ring">
+          <div className="portal-sparks">
+            {[...Array(20)].map((_, i) => (
+              <motion.span 
+                key={i} 
+                className="spark"
+                animate={{ 
+                  opacity: [0, 1, 0],
+                  scale: [0.5, 1, 0.5]
+                }}
+                transition={{ 
+                  duration: 0.5 + Math.random() * 0.5,
+                  repeat: Infinity,
+                  delay: Math.random() * 2
+                }}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="portal-ring middle-ring"></div>
+        <div className="portal-ring inner-ring"></div>
+        <div className="portal-center">
+          {isOpen ? '🌀' : '✨'}
+        </div>
+      </motion.div>
+      {isOpen && (
+        <motion.div 
+          className="portal-content"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// MAIN APP COMPONENT
+// ============================================
 function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2500);
+    const timer = setTimeout(() => setIsLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -85,13 +508,19 @@ function App() {
 
   return (
     <div className="app">
+      {/* Progress Bar */}
+      <motion.div className="scroll-progress" style={{ scaleX }} />
+      
       <ParticleBackground />
+      <IronManFlying />
+      <SpiderWeb />
       <Navigation activeSection={activeSection} setActiveSection={setActiveSection} />
       
       <main>
         <HeroSection />
         <AboutSection />
         <SkillsSection skills={skills} />
+        <MarvelShowcase />
         <MarvelHeroesSection heroes={marvelHeroes} />
         <ProjectsSection projects={projects} />
         <ContactSection />
@@ -488,6 +917,107 @@ function SkillsSection({ skills }) {
               <span className="skill-level">{skill.level}%</span>
             </motion.div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// MARVEL SHOWCASE SECTION (Interactive Components)
+// ============================================
+function MarvelShowcase() {
+  return (
+    <section className="marvel-showcase-section">
+      <div className="section-container">
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <span className="section-tag">Interactive Experience</span>
+          <h2 className="section-title">Marvel Powers Unleashed</h2>
+          <p className="section-subtitle">Click and interact with these legendary artifacts!</p>
+        </motion.div>
+
+        <div className="marvel-showcase-grid">
+          {/* Thor's Hammer Section */}
+          <motion.div
+            className="showcase-item thor-showcase"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h3>⚡ Mjolnir - Thor's Hammer</h3>
+            <ThorHammer />
+          </motion.div>
+
+          {/* Captain America Shield */}
+          <motion.div
+            className="showcase-item cap-showcase"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <h3>🛡️ Vibranium Shield</h3>
+            <CaptainShield />
+            <p className="showcase-hint">Click to throw!</p>
+          </motion.div>
+
+          {/* Arc Reactor */}
+          <motion.div
+            className="showcase-item reactor-showcase"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <h3>💎 Arc Reactor</h3>
+            <ArcReactor size={180} />
+          </motion.div>
+
+          {/* Infinity Stones */}
+          <motion.div
+            className="showcase-item stones-showcase"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <h3>💫 Infinity Stones</h3>
+            <InfinityStones />
+            <p className="showcase-hint">Hover over each stone!</p>
+          </motion.div>
+
+          {/* Hulk Smash */}
+          <motion.div
+            className="showcase-item hulk-showcase"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <h3>💪 Gamma Power</h3>
+            <HulkSmashButton />
+          </motion.div>
+
+          {/* Doctor Strange Portal */}
+          <motion.div
+            className="showcase-item strange-showcase"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+          >
+            <h3>🌀 Mystic Portal</h3>
+            <StrangePortal>
+              <div className="portal-message">
+                Welcome to the<br />Multiverse! 🌌
+              </div>
+            </StrangePortal>
+          </motion.div>
         </div>
       </div>
     </section>
