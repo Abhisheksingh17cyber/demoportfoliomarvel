@@ -43,7 +43,7 @@ A stunning, professional React portfolio with a Marvel superhero theme. Showcase
 
 ```bash
 # Clone the repository
-git clone https://github.com/GameZame/demoportfoliomarvel.git
+git clone https://github.com/Abhisheksingh17cyber/demoportfoliomarvel.git
 
 # Navigate to the project
 cd demoportfoliomarvel
@@ -61,7 +61,7 @@ npm start
 
 2. **Add remote origin:**
 ```bash
-git remote add origin https://github.com/GameZame/demoportfoliomarvel.git
+git remote add origin https://github.com/Abhisheksingh17cyber/demoportfoliomarvel.git
 ```
 
 3. **Push your code:**
@@ -75,7 +75,7 @@ npm run deploy
 ```
 
 5. **Your portfolio will be live at:**
-   `https://GameZame.github.io/demoportfoliomarvel`
+   `https://Abhisheksingh17cyber.github.io/demoportfoliomarvel`
 
 ## 🛠️ Tech Stack
 
